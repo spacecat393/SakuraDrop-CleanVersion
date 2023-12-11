@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 public class SD
 {
     @Instance
-    public static SD SD;
+    public static SD I;
 
     public static Logger LOGGER;
 

@@ -17,15 +17,21 @@ public class SakuraData implements BothData
     }
 
     @Override
-    public int Width()
+    public float Width()
     {
-        return 0;
+        return 1.0F;
     }
 
     @Override
-    public int Height()
+    public float Height()
     {
-        return 0;
+        return 1.0F;
+    }
+
+    @Override
+    public float Scale()
+    {
+        return 1.0F;
     }
 
     @Override
