@@ -9,6 +9,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.nali.Nali.RANDOM;
 import static com.nali.sd.entities.EntitiesRenderHelper.DATALOADER;
 import static com.nali.sd.key.KeyTick.HEIGHT;
@@ -90,6 +93,22 @@ public abstract class MixinMinecraft
 //            long l = Minecraft.getSystemTime() - this.last_time;
 //        }
 //        }
+        }
+    }
+
+    @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderStreamIndicator(F)V", shift = At.Shift.AFTER))
+    private void runGameLoop(CallbackInfo ci)
+    {
+        if (!SakuraDropData.SAKURADROPGUIDATA_MAP.isEmpty())
+        {
+            Set<Integer> keys_set = new HashSet<>(SakuraDropData.SAKURADROPGUIDATA_MAP.keySet());
+            for (Integer id : keys_set)
+            {
+                SakuraDropData sakuradropdata = SakuraDropData.SAKURADROPGUIDATA_MAP.get(id);
+                sakuradropdata.screen_float_array[0] = WIDTH;
+                sakuradropdata.screen_float_array[1] = HEIGHT;
+                sakuradropdata.render();
+            }
         }
     }
 }

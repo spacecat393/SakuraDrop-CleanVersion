@@ -24,7 +24,8 @@ invariant gl_Position;
 
 void main()
 {
-    gl_Position = vec4(vertices, 1.0) * world * view * project;
+    //gl_Position = vec4(vertices, 1.0) * world * view * project;
+    gl_Position = project * view * vec4(vertices, 1.0);
     fragment_texcoord = texcoord;//vec2(modulo(texcoord.x + animation_texcoord.x, 1.0), modulo(texcoord.y + animation_texcoord.y, 1.0));
     fragment_light_color = light_color;
 }
