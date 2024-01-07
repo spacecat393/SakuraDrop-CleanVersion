@@ -1,0 +1,19 @@
+#version 120
+//precision highp float;
+
+uniform sampler2D texture_sampler;
+
+varying vec2 fragment_texcoord;
+varying vec4 fragment_light_color;
+
+void main()
+{
+    vec4 texture_color = texture2D(texture_sampler, fragment_texcoord);
+
+    if (texture_color.a == 0.0 || fragment_light_color.a == 0.0)
+    {
+        discard;
+    }
+
+    gl_FragColor = texture_color * fragment_light_color;
+}

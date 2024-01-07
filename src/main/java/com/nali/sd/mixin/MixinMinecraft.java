@@ -1,10 +1,11 @@
 package com.nali.sd.mixin;
 
-import com.nali.data.SakuraDropData;
-import com.nali.sd.data.SakuraData;
+import com.nali.data.SakuraData;
+import com.nali.render.SakuraDropRender;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -13,102 +14,93 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.nali.Nali.RANDOM;
-import static com.nali.sd.entities.EntitiesRenderHelper.DATALOADER;
 import static com.nali.sd.key.KeyTick.HEIGHT;
 import static com.nali.sd.key.KeyTick.WIDTH;
+import static com.nali.sd.render.RenderHelper.DATALOADER;
 
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft
 {
-//    private int tick;
-//    private int key;
+    @Shadow public abstract void resize(int width, int height);
+
     private static boolean[] CLICK;
-//    private long last_time;
+    private static boolean LC, RC;
 
     @Inject(method = "runTick", at = @At("HEAD"))
     private void runTick(CallbackInfo ci)
     {
-        if (CLICK == null)
-        {
-            CLICK = new boolean[Mouse.getButtonCount()];
-        }
         Minecraft minecraft = Minecraft.getMinecraft();
-//        ScaledResolution scaledresolution = new ScaledResolution(minecraft);
-//        WIDTH = scaledresolution.getScaledWidth();
-//        HEIGHT = scaledresolution.getScaledHeight();
-//        while (Mouse.next())
-//        {
-//        int i = Mouse.getEventButton();
-        for (int i = 0; i < Mouse.getButtonCount(); ++i)
+
+        boolean lc = minecraft.gameSettings.keyBindAttack.isKeyDown();
+        boolean rc = minecraft.gameSettings.keyBindUseItem.isKeyDown();
+
+        if (lc || rc)
         {
-            //        if (Mouse.getEventButtonState())//click
-            boolean down = Mouse.isButtonDown(i);
-
-            if (down)
+            if ((!LC && lc) || (!RC && rc))
             {
-                CLICK[i] = true;
+                this.render(minecraft);
+                LC = lc;
+                RC = rc;
             }
-            else if (!down && CLICK[i])
+        }
+        else
+        {
+            LC = false;
+            RC = false;
+
+            if (CLICK == null)
             {
-                CLICK[i] = false;
-//            if (this.tick++ > 0)
-//            {
-//                return;
-//            }
-
-//            this.key = i;
-//            this.last_time = Minecraft.getSystemTime();
-//        }
-//        if (i != -1 && this.key != -1)//release
-//        {
-//            if (--this.tick > 0)
-//            {
-//                return;
-//            }
-
-//            this.key = -1;
-                int x, y;
-                if (minecraft.currentScreen == null)
-                {
-                    x = WIDTH / 2;
-                    y = HEIGHT / 2;
-                }
-                else
-                {
-                    x = Mouse.getEventX() * WIDTH / minecraft.displayWidth;
-                    y = HEIGHT - Mouse.getEventY() * HEIGHT / minecraft.displayHeight - 1;
-                }
-//            SD.LOGGER.info("X " + x);
-//            SD.LOGGER.info("Y " + y);
-//            SD.LOGGER.info("Width " + WIDTH);
-//            SD.LOGGER.info("Height " + HEIGHT);
-
-                SakuraDropData sakuradropdata = new SakuraDropData(new SakuraData(), DATALOADER);
-                sakuradropdata.texture_index_int_array[0] = RANDOM.nextInt(((Object[])DATALOADER.texture_object_array[0]).length);
-                sakuradropdata.screen_float_array[2] = x;
-                sakuradropdata.screen_float_array[3] = y;
+                CLICK = new boolean[Mouse.getButtonCount()];
             }
-//        else if (this.key != -1 && this.last_time > 0L)//move
-//        {
-//            long l = Minecraft.getSystemTime() - this.last_time;
-//        }
-//        }
+
+            for (int i = 0; i < Mouse.getButtonCount(); ++i)
+            {
+                boolean down = Mouse.isButtonDown(i);
+
+                if (down && !CLICK[i])
+                {
+                    CLICK[i] = true;
+                    this.render(minecraft);
+                }
+                else if (!down)
+                {
+                    CLICK[i] = false;
+                }
+            }
         }
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderStreamIndicator(F)V", shift = At.Shift.AFTER))
     private void runGameLoop(CallbackInfo ci)
     {
-        if (!SakuraDropData.SAKURADROPGUIDATA_MAP.isEmpty())
+        if (!SakuraDropRender.SAKURADROPGUIDATA_MAP.isEmpty())
         {
-            Set<Integer> keys_set = new HashSet<>(SakuraDropData.SAKURADROPGUIDATA_MAP.keySet());
+            Set<Integer> keys_set = new HashSet<>(SakuraDropRender.SAKURADROPGUIDATA_MAP.keySet());
             for (Integer id : keys_set)
             {
-                SakuraDropData sakuradropdata = SakuraDropData.SAKURADROPGUIDATA_MAP.get(id);
-                sakuradropdata.screen_float_array[0] = WIDTH;
-                sakuradropdata.screen_float_array[1] = HEIGHT;
-                sakuradropdata.render();
+                SakuraDropRender sakuradroprender = SakuraDropRender.SAKURADROPGUIDATA_MAP.get(id);
+                sakuradroprender.fastDraw(1.0F, 1.0F, 1.0F, 1.0F);
             }
         }
+    }
+
+    private void render(Minecraft minecraft)
+    {
+        int x, y;
+        if (minecraft.currentScreen == null)
+        {
+            x = WIDTH / 2;
+            y = HEIGHT / 2;
+        }
+        else
+        {
+            x = Mouse.getEventX() * WIDTH / minecraft.displayWidth;
+            y = HEIGHT - Mouse.getEventY() * HEIGHT / minecraft.displayHeight - 1;
+        }
+
+        SakuraDropRender sakuradroprender = new SakuraDropRender(new SakuraData(), DATALOADER);
+        sakuradroprender.texture_index_int_array[0] = RANDOM.nextInt(DATALOADER.opengltexturememorydata.texture_array.length);
+        sakuradroprender.x = x;
+        sakuradroprender.y = y;
     }
 }

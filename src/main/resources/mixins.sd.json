@@ -1,11 +1,11 @@
 {
-  "compatibilityLevel": "JAVA_8",
   "package": "com.nali.sd.mixin",
-  "refmap": "refmap.sd.json",
-  "mixins": [
-  ],
+  "refmap": "mixins.sd.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "required": true,
+  "minVersion": "0.7.11",
   "client": [
     "MixinMinecraft"
-  ],
-  "server": []
+  ]
 }
