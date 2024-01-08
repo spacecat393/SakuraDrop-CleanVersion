@@ -1,11 +1,10 @@
 package com.nali.sd.mixin;
 
-import com.nali.data.SakuraData;
 import com.nali.render.SakuraDropRender;
+import com.nali.sd.render.RenderHelper;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,12 +15,11 @@ import java.util.Set;
 import static com.nali.Nali.RANDOM;
 import static com.nali.sd.key.KeyTick.HEIGHT;
 import static com.nali.sd.key.KeyTick.WIDTH;
-import static com.nali.sd.render.RenderHelper.DATALOADER;
 
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft
 {
-    @Shadow public abstract void resize(int width, int height);
+//    @Shadow public abstract void resize(int width, int height);
 
     private static boolean[] CLICK;
     private static boolean LC, RC;
@@ -79,13 +77,22 @@ public abstract class MixinMinecraft
             for (Integer id : keys_set)
             {
                 SakuraDropRender sakuradroprender = SakuraDropRender.SAKURADROPGUIDATA_MAP.get(id);
-                sakuradroprender.fastDraw(1.0F, 1.0F, 1.0F, 1.0F);
+                sakuradroprender.renderScreen(1.0F, 1.0F, 1.0F, 1.0F);
             }
         }
     }
 
     private void render(Minecraft minecraft)
     {
+//        Item item = Item.getItemById(RANDOM.nextInt(Item.REGISTRY.getKeys().size()));
+//        ResourceLocation resourcelocation = item.getRegistryName();
+//
+//        if (resourcelocation != null)
+//        {
+//            String namespace = resourcelocation.getNamespace();
+//            String path = "textures/items/" + resourcelocation.getPath() + ".png";
+//            resourcelocation = new ResourceLocation(namespace, path);
+//
         int x, y;
         if (minecraft.currentScreen == null)
         {
@@ -97,10 +104,23 @@ public abstract class MixinMinecraft
             x = Mouse.getEventX() * WIDTH / minecraft.displayWidth;
             y = HEIGHT - Mouse.getEventY() * HEIGHT / minecraft.displayHeight - 1;
         }
-
-        SakuraDropRender sakuradroprender = new SakuraDropRender(new SakuraData(), DATALOADER);
-        sakuradroprender.texture_index_int_array[0] = RANDOM.nextInt(DATALOADER.opengltexturememorydata.texture_array.length);
+//
+//            TextureManager texturemanager = minecraft.getTextureManager();
+//            ITextureObject itextureobject = texturemanager.getTexture(resourcelocation);
+//            if (itextureobject == null)
+//            {
+//                itextureobject = new SimpleTexture(resourcelocation);
+//                texturemanager.loadTexture(resourcelocation, itextureobject);
+//            }
+//
+//            if (itextureobject != null)
+//            {
+//                SakuraDropRender sakuradroprender = new SakuraDropRender(itextureobject.getGlTextureId());
+        int index = RANDOM.nextInt(RenderHelper.OPENGLTEXTUREMEMORY.texture_array.length);
+        SakuraDropRender sakuradroprender = new SakuraDropRender((int)RenderHelper.OPENGLTEXTUREMEMORY.texture_array[index], RenderHelper.OPENGLTEXTUREMEMORY.width_int_array[index], RenderHelper.OPENGLTEXTUREMEMORY.height_int_array[index]);
         sakuradroprender.x = x;
         sakuradroprender.y = y;
+//            }
+//        }
     }
 }
