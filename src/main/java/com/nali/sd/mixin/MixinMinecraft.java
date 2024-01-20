@@ -1,6 +1,7 @@
 package com.nali.sd.mixin;
 
 import com.nali.render.SakuraDropRender;
+import com.nali.sd.config.MyConfig;
 import com.nali.sd.render.RenderHelper;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
@@ -29,40 +30,43 @@ public abstract class MixinMinecraft
     {
         Minecraft minecraft = Minecraft.getMinecraft();
 
-        boolean lc = minecraft.gameSettings.keyBindAttack.isKeyDown();
-        boolean rc = minecraft.gameSettings.keyBindUseItem.isKeyDown();
-
-        if (lc || rc)
+        if (MyConfig.ON_WORLD || minecraft.currentScreen != null)
         {
-            if ((!LC && lc) || (!RC && rc))
-            {
-                this.render(minecraft);
-                LC = lc;
-                RC = rc;
-            }
-        }
-        else
-        {
-            LC = false;
-            RC = false;
+            boolean lc = minecraft.gameSettings.keyBindAttack.isKeyDown();
+            boolean rc = minecraft.gameSettings.keyBindUseItem.isKeyDown();
 
-            if (CLICK == null)
+            if (lc || rc)
             {
-                CLICK = new boolean[Mouse.getButtonCount()];
-            }
-
-            for (int i = 0; i < Mouse.getButtonCount(); ++i)
-            {
-                boolean down = Mouse.isButtonDown(i);
-
-                if (down && !CLICK[i])
+                if ((!LC && lc) || (!RC && rc))
                 {
-                    CLICK[i] = true;
                     this.render(minecraft);
+                    LC = lc;
+                    RC = rc;
                 }
-                else if (!down)
+            }
+            else
+            {
+                LC = false;
+                RC = false;
+
+                if (CLICK == null)
                 {
-                    CLICK[i] = false;
+                    CLICK = new boolean[Mouse.getButtonCount()];
+                }
+
+                for (int i = 0; i < Mouse.getButtonCount(); ++i)
+                {
+                    boolean down = Mouse.isButtonDown(i);
+
+                    if (down && !CLICK[i])
+                    {
+                        CLICK[i] = true;
+                        this.render(minecraft);
+                    }
+                    else if (!down)
+                    {
+                        CLICK[i] = false;
+                    }
                 }
             }
         }
