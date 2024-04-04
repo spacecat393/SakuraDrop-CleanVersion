@@ -1,6 +1,6 @@
-package com.nali.sd.mixin;
+package com.nali.sakuradrop.mixin;
 
-import com.nali.render.SakuraDropRender;
+import com.nali.sakuradrop.render.SakuraDropRender;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.nali.sd.key.KeyTick.FUNCTION;
+import static com.nali.sakuradrop.key.KeyTick.FUNCTION;
 
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft

@@ -1,9 +1,9 @@
-package com.nali.sd.key;
+package com.nali.sakuradrop.key;
 
-import com.nali.render.SakuraDropRender;
-import com.nali.sd.config.MyConfig;
-import com.nali.sd.render.RenderHelper;
-import com.nali.sd.system.Reference;
+import com.nali.sakuradrop.config.MyConfig;
+import com.nali.sakuradrop.render.RenderHelper;
+import com.nali.sakuradrop.render.SakuraDropRender;
+import com.nali.sakuradrop.system.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.Mod;

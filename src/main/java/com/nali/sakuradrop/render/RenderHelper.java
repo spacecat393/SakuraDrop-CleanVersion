@@ -1,6 +1,6 @@
-package com.nali.sd.render;
+package com.nali.sakuradrop.render;
 
-import com.nali.sd.system.Reference;
+import com.nali.sakuradrop.system.Reference;
 import com.nali.system.opengl.memory.OpenGLTextureMemory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

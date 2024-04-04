@@ -1,8 +1,8 @@
 package com.nali.list.function;
 
-import com.nali.sd.key.KeyTick;
+import com.nali.sakuradrop.key.KeyTick;
 
-import static com.nali.sd.key.KeyTick.mainRun;
+import static com.nali.sakuradrop.key.KeyTick.mainRun;
 
 public class SdFunction
 {

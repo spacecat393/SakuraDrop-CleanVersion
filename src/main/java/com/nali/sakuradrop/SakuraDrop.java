@@ -1,6 +1,6 @@
-package com.nali.sd;
+package com.nali.sakuradrop;
 
-import com.nali.sd.system.Reference;
+import com.nali.sakuradrop.system.Reference;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -8,10 +8,10 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = Reference.MOD_ID, name = Reference.NAME)
-public class SD
+public class SakuraDrop
 {
     @Instance
-    public static SD I;
+    public static SakuraDrop I;
 
     public static Configuration CONFIGURATION;
 

@@ -1,6 +1,6 @@
-package com.nali.sd.config;
+package com.nali.sakuradrop.config;
 
-import com.nali.sd.system.Reference;
+import com.nali.sakuradrop.system.Reference;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;

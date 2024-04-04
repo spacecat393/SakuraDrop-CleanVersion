@@ -1,6 +1,6 @@
 {
-  "package": "com.nali.sd.mixin",
-  "refmap": "mixins.sd.refmap.json",
+  "package": "com.nali.sakuradrop.mixin",
+  "refmap": "mixins.sakuradrop.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "required": true,
