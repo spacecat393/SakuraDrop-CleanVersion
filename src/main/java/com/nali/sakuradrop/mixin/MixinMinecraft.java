@@ -28,8 +28,7 @@ public abstract class MixinMinecraft
     {
         if (!SakuraDropRender.SAKURADROPGUIDATA_MAP.isEmpty())
         {
-            Set<Integer> keys_set = new HashSet<>(SakuraDropRender.SAKURADROPGUIDATA_MAP.keySet());
-            for (Integer id : keys_set)
+            for (Integer id : new HashSet<>(SakuraDropRender.SAKURADROPGUIDATA_MAP.keySet()))
             {
                 SakuraDropRender sakuradroprender = SakuraDropRender.SAKURADROPGUIDATA_MAP.get(id);
                 sakuradroprender.renderScreen(1.0F, 1.0F, 1.0F, 1.0F);

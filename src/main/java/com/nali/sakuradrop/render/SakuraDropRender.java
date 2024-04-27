@@ -20,7 +20,7 @@ import static com.nali.system.opengl.memory.OpenGLCurrentMemory.*;
 @SideOnly(Side.CLIENT)
 public class SakuraDropRender
 {
-    public static Map<Integer, SakuraDropRender> SAKURADROPGUIDATA_MAP = new WeakHashMap<>();
+    public static Map<Integer, SakuraDropRender> SAKURADROPGUIDATA_MAP = new WeakHashMap();
     public static int INDEX;
     public int id, texture_buffer, texture_width, texture_height;
 
