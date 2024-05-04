@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL20;
 
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 import static com.nali.Nali.RANDOM;
 import static com.nali.render.RenderHelper.drawModalRectWithCustomSizedTexture;
@@ -20,7 +20,7 @@ import static com.nali.system.opengl.memory.OpenGLCurrentMemory.*;
 @SideOnly(Side.CLIENT)
 public class SakuraDropRender
 {
-    public static Map<Integer, SakuraDropRender> SAKURADROPGUIDATA_MAP = new WeakHashMap();
+    public static Map<Integer, SakuraDropRender> SAKURADROPGUIDATA_MAP = new HashMap();
     public static int INDEX;
     public int id, texture_buffer, texture_width, texture_height;
 
