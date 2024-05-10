@@ -1,6 +1,5 @@
 package com.nali.sakuradrop.key;
 
-import com.nali.sakuradrop.config.MyConfig;
 import com.nali.sakuradrop.render.RenderHelper;
 import com.nali.sakuradrop.render.SakuraDropRender;
 import com.nali.sakuradrop.system.Reference;
@@ -12,68 +11,66 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
-import java.util.function.Function;
-
 import static com.nali.Nali.RANDOM;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Side.CLIENT)
 @SideOnly(Side.CLIENT)
 public class KeyTick
 {
-    public static Function FUNCTION = (v) -> v;
+//    public static Function FUNCTION = (v) -> v;
     public static int WIDTH;
     public static int HEIGHT;
 
-    public static boolean[] CLICK;
-    public static boolean LC, RC;
-
-    public static Void mainRun()
-    {
-        Minecraft minecraft = Minecraft.getMinecraft();
-
-        if (MyConfig.ON_WORLD || minecraft.currentScreen != null)
-        {
-            boolean lc = minecraft.gameSettings.keyBindAttack.isKeyDown();
-            boolean rc = minecraft.gameSettings.keyBindUseItem.isKeyDown();
-
-            if (lc || rc)
-            {
-                if ((!LC && lc) || (!RC && rc))
-                {
-                    render(minecraft);
-                    LC = lc;
-                    RC = rc;
-                }
-            }
-            else
-            {
-                LC = false;
-                RC = false;
-
-                if (CLICK == null)
-                {
-                    CLICK = new boolean[Mouse.getButtonCount()];
-                }
-
-                for (int i = 0; i < Mouse.getButtonCount(); ++i)
-                {
-                    boolean down = Mouse.isButtonDown(i);
-
-                    if (down && !CLICK[i])
-                    {
-                        CLICK[i] = true;
-                        render(minecraft);
-                    }
-                    else if (!down)
-                    {
-                        CLICK[i] = false;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
+//    public static boolean[] CLICK;
+//    public static boolean LC, RC;
+//
+//    public static Void mainRun()
+//    {
+//        Minecraft minecraft = Minecraft.getMinecraft();
+//
+//        if (MyConfig.ON_WORLD || minecraft.currentScreen != null)
+//        {
+//            boolean lc = minecraft.gameSettings.keyBindAttack.isKeyDown();
+//            boolean rc = minecraft.gameSettings.keyBindUseItem.isKeyDown();
+//
+//            if (lc || rc)
+//            {
+//                if ((!LC && lc) || (!RC && rc))
+//                {
+//                    render(minecraft);
+//                    LC = lc;
+//                    RC = rc;
+//                }
+//            }
+//            else
+//            {
+//                LC = false;
+//                RC = false;
+//
+//                if (CLICK == null)
+//                {
+//                    CLICK = new boolean[Mouse.getButtonCount()];
+//                }
+//
+//                for (int i = 0; i < Mouse.getButtonCount(); ++i)
+//                {
+//                    boolean down = Mouse.isButtonDown(i);
+//
+//                    if (down && !CLICK[i])
+//                    {
+//                        CLICK[i] = true;
+//                        render(minecraft);
+//                    }
+//                    else if (!down)
+//                    {
+//                        CLICK[i] = false;
+//                    }
+//                }
+//            }
+//        }
+//
+//        return null;
+//    }
 
     public static void render(Minecraft minecraft)
     {
