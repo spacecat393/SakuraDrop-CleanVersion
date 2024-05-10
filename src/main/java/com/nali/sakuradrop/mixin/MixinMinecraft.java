@@ -33,7 +33,7 @@ public abstract class MixinMinecraft
 
 //    @Inject(method = "runGameLoop", at = @At(value = "TAIL"))
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderStreamIndicator(F)V", shift = At.Shift.AFTER))
-    private void nali_small_sakuradrop_lastRunGameLoop(CallbackInfo ci)
+    private void nali_sakuradrop_lastRunGameLoop(CallbackInfo ci)
     {
         if (!SakuraDropRender.SAKURADROPGUIDATA_MAP.isEmpty())
         {
